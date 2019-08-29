@@ -1,73 +1,83 @@
-# The Crowd Round
+<p align="center">
+<img src="logo.png" alt="logo"/>
+<p align="center"><a href="https://travis-ci.org/ooade/NextSimpleStarter"><img src="https://travis-ci.org/ooade/NextSimpleStarter.svg?branch=master" alt="travis-ci"/></a> <a href="https://codeclimate.com/github/ooade/NextSimpleStarter/badges"><img src="https://codeclimate.com/github/ooade/NextSimpleStarter/badges/gpa.svg" alt="codeclimate-gpa-badge"/></a> <a href="https://codeclimate.com/github/ooade/NextSimpleStarter"><img src="https://codeclimate.com/github/ooade/NextSimpleStarter/badges/issue_count.svg" alt="codeclimate-issues-badge"/></a><br/>
+<h3 align="center">Simple NextJS PWA boilerplate.</h3></p>
+</p>
 
-_Application that helps women/latinx/black/youth entrepreneurs with existing businesses gain access to crowdfunding capital and mentorship/coaching to meet short-term business goals._
+## Contents
 
+- [Installation](#installation)
+- [Development Workflow](#development-workflow)
+- [Deployment](#deployment)
+- [Deploy to Netlify](#deploy-to-netlify)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Installation
+> :information_source: This project is bootstrapped from [NextSimpleStarter](https://github.com/ooade/NextSimpleStarter.git) Repo.
+Clone Repo:
+```
+git clone https://github.com/tdotholla/crowdround.git
+cd crowdround
+```
 
-## Available Scripts
+### Development Workflow
 
-In the project directory, you can run:
+Start a live-reload development server:
 
-### `yarn start`
+```sh
+yarn dev
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+or
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```sh
+npm run dev
+```
 
-### `yarn test`
+Generate a production build:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+yarn build
+```
 
-### `yarn run build`
+or
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm run build
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### Deploy to Now
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+now dev
+```
 
-### `yarn run eject`
+For production, update alias in the now.json ie `"alias": "crowdround.now.sh",`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+now
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Deploy to Now/Heroku
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/tdotholla/crowdround)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<details>
+	<summary>Heroku</summary>
+	Just follow <a href="https://github.com/mars/heroku-nextjs">Mars's Guide</a> and you're good to go :clap:
+</details>
 
-## Learn More
+### Deploy to Netlify
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- On netlify, Click on new site from git.
+- Select Cloned Repository.
+- Choose VCS.
+- Add build command `npm run export`.
+- Add publish directory `out`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Contribution
 
-### Code Splitting
+To contribute to this project, email [theHilmar@gmail.com](mailto:thehilmar@gmail.com?subject=Contribute%20to%20Crowdround%20Project)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### License
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#yarn-run-build-fails-to-minify
+MIT
