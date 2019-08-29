@@ -1,111 +1,104 @@
+<p align="center">
+<img src="logo.png" alt="logo"/>
+<p align="center"><a href="https://travis-ci.org/ooade/NextSimpleStarter"><img src="https://travis-ci.org/ooade/NextSimpleStarter.svg?branch=master" alt="travis-ci"/></a> <a href="https://codeclimate.com/github/ooade/NextSimpleStarter/badges"><img src="https://codeclimate.com/github/ooade/NextSimpleStarter/badges/gpa.svg" alt="codeclimate-gpa-badge"/></a> <a href="https://codeclimate.com/github/ooade/NextSimpleStarter"><img src="https://codeclimate.com/github/ooade/NextSimpleStarter/badges/issue_count.svg" alt="codeclimate-issues-badge"/></a><br/>
+<h3 align="center">Simple NextJS PWA boilerplate.</h3></p>
+</p>
 
-<img src="banner.jpg" alt="Performance oriented Next.js application boilerplate with Redux, Typescript, Express.js and Sass." align="center" />
+## Contents
 
-<br/>
-<div align="center" >Performance oriented Next.js application boilerplate with Redux, Typescript, Express.js and Sass.</div>
-<br/>
+- [Installation](#installation)
+- [Development Workflow](#development-workflow)
+- [Deployment](#deployment)
+- [Deploy to Netlify](#deploy-to-netlify)
 
-<div align="center">
-  <!-- CodeClimate -->
-  <a href="https://codeclimate.com/github/pankod/next-boilerplate/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/077c02d5cb9ec7d8a654/maintainability" />
-  </a>
-  <!-- TestCoverage -->
-  <a href="https://codeclimate.com/github/pankod/next-boilerplate/test_coverage"><img src="https://api.codeclimate.com/v1/badges/077c02d5cb9ec7d8a654/test_coverage" /></a>
-  <!-- Build Status -->
-  <a href="https://travis-ci.org/pankod/next-boilerplate">
-    <img src="https://travis-ci.org/pankod/next-boilerplate.svg?branch=master" alt="Build Status" />
-  </a>
-  <!-- Dependency Status -->
-  <a href="https://david-dm.org/pankod/next-boilerplate">
-    <img src="https://david-dm.org/pankod/next-boilerplate.svg" alt="Dependency Status" />
-  </a>
-  <!-- devDependency Status -->
-  <a href="https://david-dm.org/pankod/next-boilerplate#info=devDependencies"> 
-    <img src="https://david-dm.org/pankod/next-boilerplate/dev-status.svg" alt="devDependency Status" />
-  </a>
-</div>
+### Installation
 
+Clone repo:
 
-<br/>
-<div align="center">
-  <sub>Created by <a href="https://www.pankod.com">Pankod</a></sub>
-</div>
-
-
-
-## About
-
-
-Next.js is a minimalistic React framework that runs in the browser and the server. It offers developers an easy way to get started, and as it uses React.js for templating it is also a straightforward way for developers with React experience to get productive fast.
-
-The advantages of this approach is to be able to create Rich User experiences in a uniform way, without compromising Search Engine Optimisation (SEO) factors that are key to good ranking on Google and other search engines. 
-
-This boilerplate make it easier to get started with a well-structured Next.js and TypeScript application.
-
-By the end of setup, you'll have a Next.js project and features which is specified at the below.
-
-<br/>
-
-## Features
-
-
-This boilerplate includes the latest powerfull tools.
-
-* **Next.js** - Minimalistic framework for server-rendered React applications.
-* **Typescript** - Superset of JavaScript which primarily provides optional static typing, classes and interfaces.
-* **Redux** - State management
-* **Express.js**- Handles server-side rendering and integrated with Express.js
-* **Built-in Project CLI**- Create pages, components, actions, reducers with one command by using built-in cli.
-* **Sass/Scss** - CSS preprocessor, which adds special features such as variables, nested rules and mixins (sometimes referred to as syntactic sugar) into regular CSS.
-* **Docker** - A tool designed to make it easier to create, deploy, and run applications by using containers.
-* **Babel** -  The compiler for next generation JavaScript.
-* **Eslint** - The pluggable linting utility.
-* **Reverse Proxy** - A reverse proxy server is a type of proxy server that typically sits behind the firewall in a private network and directs client requests to the appropriate backend server
-* **Bundler Analyzer** - Visualize size of webpack output files with an interactive zoomable treemap.
-* **dotenv .config** - Expose environment variables to the runtime config of Next.js
-* **Jest** - Javascript testing framework , created by developers who created react
-* **Enzyme** - JavaScript testing utility for React that makes it easier to test your React Components output.
-
-
-<br/>
-
-
-## Setup & Documentation
-
-Please refer to our [setup guide](https://pankod.github.io/next-boilerplate/docs/setup) to create a new app. 
-
-
-For more detailed documentation, check out https://pankod.github.io/next-boilerplate/
-
-<br/>
-
-## Built-in CLI
-
-
-<div>
- <img width="600" src="./boilerplate-cli.gif" >
-</div>
-<br/>
-<br/>
-
-Pankod boilerplate is shipped with a CLI tool to streamline the creation of new components. By using the CLI tool, you may easily add pages, class components or functional components to your project and have all the required actions, reducers and imports are automatically created for you.
-<br />
-
-To start the CLI, you may run the following npm command:
-
-```
-npm run cli
+```sh
+git clone https://github.com/ooade/NextSimpleStarter.git
+cd NextSimpleStarter
 ```
 
-After starting, an interactive menu will let you configure the component the be created. Firstly, you'll be asked for the type of the component whether it's a page, functional component or class component. Then you'll be prompted with the other options relevant to your selection of the component type.
+Make it your own:
 
+```sh
+rm -rf .git && git init && yarn init
+```
 
-After answering questions it generates files in miliseconds.
+> :information_source: This re-initializes the repo and sets up your project.
 
-<br/>
+Install the dependencies:
 
+```sh
+yarn install
+```
 
-## License
+or
 
-Licensed under the MIT License, Copyright © 2018-present Pankod
+```sh
+npm install
+```
+
+### Development Workflow
+
+Start a live-reload development server:
+
+```sh
+yarn dev
+```
+
+or
+
+```sh
+npm run dev
+```
+
+Generate a production build:
+
+```sh
+yarn build
+```
+
+or
+
+```sh
+npm run build
+```
+
+### Deploy to Now
+
+```sh
+now dev
+```
+
+For production, update alias in the now.json ie `"alias": "nextss-yourname.now.sh",`
+
+```sh
+now
+```
+
+### Deploy to Heroku
+
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/ooade/NextSimpleStarter)
+
+<details>
+	<summary>Heroku</summary>
+	Just follow <a href="https://github.com/mars/heroku-nextjs">Mars's Guide</a> and you're good to go :clap:
+</details>
+
+### Deploy to Netlify
+
+- On netlify, Click on new site from git.
+- Select Cloned Repository.
+- Choose VCS.
+- Add build command `npm run export`.
+- Add publish directory `out`.
+
+### Contribution
+
+I'm open to contributions & suggestions in making this a lot better :hand:
+
+### License
+
+MIT
