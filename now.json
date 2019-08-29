@@ -1,7 +1,12 @@
 {
 	"version": 2,
+<<<<<<< HEAD
 	"name": "crowdround",
 	"alias": "crowdround.now.sh",
+=======
+	"name": "next-simple-starter",
+	"alias": "nextss.now.sh",
+>>>>>>> 7b41ca37671540cce950f5294dcc1422d9851ff6
 	"routes": [
 		{
 			"src": "^/service-worker.js$",
