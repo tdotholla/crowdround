@@ -1,7 +1,7 @@
 const withOffline = require('next-offline')
 
 module.exports = withOffline({
-	target: process.env.NEXT_TARGET || 'serverless',
+	target: process.env.NEXT_TARGET || 'server',
 	workboxOpts: {
 		swDest: 'static/service-worker.js',
 		runtimeCaching: [

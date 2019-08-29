@@ -1,13 +1,7 @@
 import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
+import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, FormControl, InputLabel, MenuItem, Select, Input, TextField, FormControlLabel, FormHelperText } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,28 +17,168 @@ const useStyles = makeStyles(theme => ({
   resetContainer: {
     padding: theme.spacing(3),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
+const WhoStep = (params) => {
+  const [values, setValues] = useState({
+    type: '',
+    name: 'Business Owner',
+  });
+  function handleChange(event) {
+    setValues(oldValues => ({
+      ...oldValues,
+      [event.target.name]: event.target.value,
+    }));
+  }
 
+  const classes = useStyles();
+  return (
+    <>
+      <Typography variant="h5" align="center">Who category would you fit into?</Typography>
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="type-helper">Category</InputLabel>
+        <Select
+          value={values.type}
+          onChange={handleChange}
+          input={<Input name="type" id="type-helper" />}
+        >
+          <MenuItem value={'Business Owner'}>Business Owner</MenuItem>
+          <MenuItem value={'Investor'}>Investor</MenuItem>
+          <MenuItem value={'Business Mentor / Coach'}>Business Mentor</MenuItem>
+        </Select>
+        
+      </FormControl>
+    </>
+  )
+}
+const InfoStep = ({type}) => {
+  const [values, setValues] = useState({
+    name: "LemonTopia",
+    sales: 6000,
+
+  });
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+  //name of business, purpose of investment, how much needed, what can you offer in return (select), Annual sales (or last 3 months), Value added (direct impact)
+  //formulas: free cash flow (net income + non-cash expenses - capital expenditures - working capital)
+  return (
+    <>
+      <Typography>Business Information:</Typography>
+      <FormControl fullWidth>
+        <InputLabel htmlFor="name-helper">Business Name</InputLabel>
+        <TextField
+        id="name-helper"
+        label='Name of your Business.'
+        value={values.name}
+        onChange={handleChange('name')}
+        margin='normal'
+        
+        /> 
+        <FormHelperText>Official Business Name</FormHelperText>
+      </FormControl>
+
+<FormControl fullWidth>
+        <InputLabel htmlFor="">Revenue</InputLabel>
+        <TextField
+        label='What were your sales in the last 3 months?'
+        value={values.sales}
+        onChange={handleChange('sales')}
+        margin='normal'
+        /> 
+        <FormHelperText>One Quarter</FormHelperText>
+        </FormControl>
+        
+    </>
+  )
+}
+const HowStep = (params) => {
+  const [values, setValues] = useState({
+    amount: 500,
+    purpose: 'Buy Foodtruck',
+    return: 'Money, Equity, Gift',
+  });
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+  return (
+    <>
+    <Typography>Business Information:</Typography>
+      
+        
+<FormControl>
+        <InputLabel htmlFor="">Business Name</InputLabel>
+        <TextField
+        label='How much investment would you need?'
+        value={values.amount}
+        onChange={handleChange('amount')}
+        margin='normal'
+        /> 
+        <FormHelperText>Official Business Name</FormHelperText>
+
+        </FormControl>
+        
+<FormControl fullWidth>
+        <InputLabel htmlFor="purpose-helper">Business Name</InputLabel>
+        <TextField
+        id="purpose-helper"
+        label='What will you use the investment for?'
+        value={values.purpose}
+        onChange={handleChange('purpose')}
+        margin='normal'
+        multiline
+        
+        /> 
+        <FormHelperText>Purpose for Investment</FormHelperText>
+        </FormControl>
+
+        <FormControl fullWidth>
+        <InputLabel htmlFor="return-helper">ROI</InputLabel>
+        <Select
+          value={values.return}
+          onChange={handleChange}
+          input={<Input name="type" id="return-helper" />}
+        >
+          <MenuItem value={'Money'}>Money</MenuItem>
+          <MenuItem value={'Equity'}>Equity</MenuItem>
+          <MenuItem value={'Gift'}>Gifts</MenuItem>
+          <MenuItem value={'Perks'}>Perks</MenuItem>
+        </Select>
+        <FormHelperText>Official Business Name</FormHelperText>
+        </FormControl>
+
+    </>
+  )
+}
+const ConfirmStep = (params) => {
+  return (
+    <>
+    <Typography>Please Confirm:</Typography>
+    </>
+  )
+}
 
 
 function getSteps() {
-  return ['Who are you?', 'Qualify your need', 'Quantify', 'Confirm'];
+  return ['Category', 'Information', 'Quantify', 'Confirm'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
+      return <WhoStep />;
     case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
+      return <InfoStep type="Business Owner"/>;
     case 2:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
+      return <HowStep />;
+    case 3:
+      return <ConfirmStep />;
     default:
       return 'Unknown step';
   }
@@ -53,7 +187,8 @@ function getStepContent(step) {
 const CrowdStepper = () => {
   
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+
   const steps = getSteps();
 
   function handleNext() {
