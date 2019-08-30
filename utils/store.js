@@ -1,5 +1,5 @@
-import { createStore, compose, applyMiddleware } from 'redux'
-
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
+import { reactReduxFireabase, firebaseReducer } from 'react-redux-firebase'
 import rootReducer from '../reducers'
 
 const enhancers = compose(

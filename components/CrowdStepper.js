@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, FormControl, InputLabel, MenuItem, Select, Input, TextField, FormControlLabel, FormHelperText } from '@material-ui/core'
+import { Grid, Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, FormControl, InputLabel, MenuItem, Select, Input, TextField, FormControlLabel, FormHelperText } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,22 +37,23 @@ const WhoStep = (params) => {
 
   const classes = useStyles();
   return (
-    <>
-      <Typography variant="h5" align="center">Who category would you fit into?</Typography>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="type-helper">Category</InputLabel>
+    <Grid item>
+      <Typography variant="h5" align="center">Which category would you fit into?</Typography>
+      <FormControl className={classes.formControl} fullWidth>
+        <InputLabel>Select a type:</InputLabel>
         <Select
           value={values.type}
           onChange={handleChange}
           input={<Input name="type" id="type-helper" />}
+          displayEmpty
+          name="type"
         >
           <MenuItem value={'Business Owner'}>Business Owner</MenuItem>
           <MenuItem value={'Investor'}>Investor</MenuItem>
           <MenuItem value={'Business Mentor / Coach'}>Business Mentor</MenuItem>
-        </Select>
-        
+        </Select>  
       </FormControl>
-    </>
+    </Grid>
   )
 }
 const InfoStep = ({type}) => {
@@ -69,29 +70,24 @@ const InfoStep = ({type}) => {
   //formulas: free cash flow (net income + non-cash expenses - capital expenditures - working capital)
   return (
     <>
-      <Typography>Business Information:</Typography>
+      <Typography variant="h5">Business Information:</Typography>
       <FormControl fullWidth>
-        <InputLabel htmlFor="name-helper">Business Name</InputLabel>
         <TextField
         id="name-helper"
         label='Name of your Business.'
         value={values.name}
         onChange={handleChange('name')}
         margin='normal'
-        
         /> 
-        <FormHelperText>Official Business Name</FormHelperText>
       </FormControl>
 
 <FormControl fullWidth>
-        <InputLabel htmlFor="">Revenue</InputLabel>
         <TextField
         label='What were your sales in the last 3 months?'
         value={values.sales}
         onChange={handleChange('sales')}
         margin='normal'
         /> 
-        <FormHelperText>One Quarter</FormHelperText>
         </FormControl>
         
     </>
@@ -109,23 +105,20 @@ const HowStep = (params) => {
   };
   return (
     <>
-    <Typography>Business Information:</Typography>
+    <Typography variant="h5">Investment Information:</Typography>
       
         
 <FormControl>
-        <InputLabel htmlFor="">Business Name</InputLabel>
         <TextField
-        label='How much investment would you need?'
+        label='How much would you need?'
         value={values.amount}
         onChange={handleChange('amount')}
         margin='normal'
         /> 
-        <FormHelperText>Official Business Name</FormHelperText>
 
         </FormControl>
         
 <FormControl fullWidth>
-        <InputLabel htmlFor="purpose-helper">Business Name</InputLabel>
         <TextField
         id="purpose-helper"
         label='What will you use the investment for?'
@@ -135,11 +128,10 @@ const HowStep = (params) => {
         multiline
         
         /> 
-        <FormHelperText>Purpose for Investment</FormHelperText>
         </FormControl>
-
+        <Typography variant="h5">What can you offer in return for investment?</Typography>
         <FormControl fullWidth>
-        <InputLabel htmlFor="return-helper">ROI</InputLabel>
+          <InputLabel>Select an Incentive:</InputLabel>
         <Select
           value={values.return}
           onChange={handleChange}
@@ -150,7 +142,6 @@ const HowStep = (params) => {
           <MenuItem value={'Gift'}>Gifts</MenuItem>
           <MenuItem value={'Perks'}>Perks</MenuItem>
         </Select>
-        <FormHelperText>Official Business Name</FormHelperText>
         </FormControl>
 
     </>
@@ -159,7 +150,7 @@ const HowStep = (params) => {
 const ConfirmStep = (params) => {
   return (
     <>
-    <Typography>Please Confirm:</Typography>
+    <Typography variant="h5">Please Confirm:</Typography>
     </>
   )
 }
@@ -210,7 +201,7 @@ const CrowdStepper = () => {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
+              {getStepContent(index)}
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
@@ -236,9 +227,9 @@ const CrowdStepper = () => {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography variant="h3">All steps completed!</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Reset
+            Close
           </Button>
         </Paper>
       )}
