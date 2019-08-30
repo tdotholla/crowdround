@@ -1,41 +1,23 @@
 import { applyMiddleware, compose, createStore } from 'redux'
-import saga from 'redux-saga'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import firebase from 'firebase/app'
 import 'firebase/database'
-import 'firebase/auth'
+import 'firebase/auth' 
 import 'firebase/storage'
+import createSagaMiddleware from "redux-saga";
+
 import makeRootReducer from './reducers'
-import {
-  firebase as fbConfig,
-  reduxFirebase as rrfConfig,
-  env
-} from '../config'
+import {fbConfig, rrfConfig } from './../config'
+import rootSaga from './../sagas'
 
 export default (initialState = {}) => {
-  // ======================================================
-  // Redux + Firebase Config (react-redux-firebase & redux-firestore)
-  // ======================================================
-  const defaultRRFConfig = {
-    userProfile: 'users', // root that user profiles are written to
-    updateProfileOnLogin: false, // enable/disable updating of profile on login
-    presence: 'presence', // list currently online users under "presence" path in RTDB
-    sessions: null, // Skip storing of sessions
-    enableLogging: false // enable/disable Firebase Database Logging
-    // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
-  }
-
-  // Combine default config with overrides if they exist (set within .firebaserc)
-  const combinedConfig = rrfConfig
-    ? { ...defaultRRFConfig, ...rrfConfig }
-    : defaultRRFConfig
 
   // ======================================================
   // Store Enhancers
   // ======================================================
   const enhancers = []
 
-  if (env === 'local') {
+  if (process.env.NODE_ENV === 'local') {
     const devToolsExtension = window.devToolsExtension
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())
@@ -45,15 +27,17 @@ export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
+  const sagaMiddleware = createSagaMiddleware()
   const middleware = [
-    // thunk.withExtraArgument(getFirebase)
+    sagaMiddleware
     // This is where you add other middleware like redux-observable
   ]
 
   // ======================================================
   // Firebase Initialization
   // ======================================================
-  firebase.initializeApp(fbConfig)
+  !firebase.apps.length ? 
+    firebase.initializeApp(fbConfig) : firebase.app()
 
   // ======================================================
   // Store Instantiation and HMR Setup
@@ -63,10 +47,11 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, combinedConfig),
+      reactReduxFirebase(firebase, rrfConfig),
       ...enhancers
     )
   )
+  sagaMiddleware.run(rootSaga)
 
   store.asyncReducers = {}
 
@@ -79,3 +64,4 @@ export default (initialState = {}) => {
 
   return store
 }
+

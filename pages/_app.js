@@ -1,13 +1,16 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Head from 'next/head'
-import App, { Container } from 'next/app'
-import Provider from '../contexts'
+import App from 'next/app'
+import store from './../src/store/createStore'
+import withRedux from 'next-redux-wrapper'
+import Provider from '../src/contexts'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './../src/Style/theme';
 
-export default class MyApp extends App {
+
+class MyApp extends App {
 	static async getInitialProps({ Component, ctx }) {
 		return {
 			pageProps: {
@@ -45,3 +48,5 @@ export default class MyApp extends App {
 		)
 	}
 }
+
+export default withRedux(store)(MyApp)

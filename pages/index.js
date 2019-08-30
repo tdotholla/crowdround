@@ -1,10 +1,11 @@
 import 'isomorphic-fetch'
 import React from 'react'
-import CrowdStepper from '../components/CrowdStepper';
 import { Container, Typography, Divider } from '@material-ui/core';
-import VentureList from './../components/Ventures/VentureList'
-import InvestorList from './../components/Investors/InvestorList'
-import MentorList from './../components/Mentors/MentorList'
+
+import CrowdStepper from '../src/components/CrowdStepper';
+import VentureList from './../src/components/Ventures/VentureList'
+import InvestorList from './../src/components/Investors/InvestorList'
+import MentorList from './../src/components/Mentors/MentorList'
 
 const Index = ({ stars }) => (
 	<Container>
