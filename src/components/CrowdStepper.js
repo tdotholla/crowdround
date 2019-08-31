@@ -1,7 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, FormControl, InputLabel, MenuItem, Select, Input, TextField, FormControlLabel, FormHelperText } from '@material-ui/core'
+import { updateForms } from './../../src/store/forms'
+import {INIT_APP} from './../actions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,16 +25,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const WhoStep = (params) => {
+const WhoStep = ({dispatch}) => {
   const [values, setValues] = useState({
     type: '',
     name: 'Business Owner',
   });
+  
   function handleChange(event) {
-    setValues(oldValues => ({
+    updateForms((dispatch, oldValues) => ({
       ...oldValues,
       [event.target.name]: event.target.value,
-    }));
+    }))
+
+    // setValues(oldValues => ({
+    //   ...oldValues,
+    //   [event.target.name]: event.target.value,
+    // }));
   }
 
   const classes = useStyles();
@@ -176,24 +184,31 @@ function getStepContent(step) {
 }
 
 const CrowdStepper = () => {
-  
+  const dispatch = useDispatch()
   const classes = useStyles();
+  const steps = getSteps();
+  const formValues = useSelector(state => state.forms.values)
   const [activeStep, setActiveStep] = useState(0);
 
-  const steps = getSteps();
-
-  function handleNext() {
+  function handleNext(values) {
+    updateForms((dispatch, formValues) => ({
+      ...formValues,
+      [event.target.name]: event.target.value,
+    }))
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   }
 
-  function handleBack() {
+  function handleBack(values) {
+    updateForms((dispatch, formValues) => ({
+      ...formValues,
+      [event.target.name]: event.target.value,
+    }))
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
 
   function handleReset() {
     setActiveStep(0);
   }
-
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">

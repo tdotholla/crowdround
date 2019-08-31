@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   name: "",
   social: SOCIAL_SHAPE,
   campaigns: [],
-  totalInvested: 0
+  totalInvested: 0,
+  followers: []
 }
 
 

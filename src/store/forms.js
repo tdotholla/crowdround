@@ -13,6 +13,12 @@ const INITIAL_STATE = {
   social: SOCIAL_SHAPE,
 }
 
+export const updateForms = (dispatch, values) => {
+  dispatch({
+    type: UPDATE_FORMS_REDUCER,
+    payload: values
+  })
+}
 
 function FormsReducer(state = INITIAL_STATE, action) {
   switch (action.type) {

@@ -10,5 +10,6 @@ import venturesSaga from "./ventures";
 
 
 export default function* rootSaga() {
-  yield all([ authSaga(), membersSaga(), initSaga(), investorsSaga(), mentorsSaga(), venturesSaga() ]);
+  yield all([ authSaga(), initSaga(), membersSaga(), investorsSaga(), mentorsSaga(), venturesSaga() 
+  ]);
 }

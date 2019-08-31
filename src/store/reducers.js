@@ -7,25 +7,13 @@ import FormsReducer from './forms'
 import MemberReducer from './member'
 import AppReducer from "./app";
 
-export function makeRootReducer(asyncReducers) {
-  return combineReducers({
+export default () => combineReducers({
     // Add sync reducers here
-    firebaseReducer,
+    firebase: firebaseReducer,
     app: AppReducer,
   member: MemberReducer,
   forms: FormsReducer,
   ventures: VenturesReducer,
       investors: InvestorsReducer, 
-    mentors: MentorsReducer,
-    ...asyncReducers
+    mentors: MentorsReducer
   })
-}
-
-export function injectReducer(store, { key, reducer }) {
-  store.asyncReducers[key] = reducer
-  store.replaceReducer(makeRootReducer(store.asyncReducers))
-}
-
-export default makeRootReducer
-
-

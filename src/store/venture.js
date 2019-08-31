@@ -1,33 +1,25 @@
-import { actionTypes } from "react-redux-firebase";
 import { SOCIAL_SHAPE } from './app'
-import { UPDATE_VENTURE } from "../actions";
+//Actions
+import { UPDATE_VENTURE} from "./../actions";
 
-// ------------------------------------
-//============   Constants   ==========
-// ------------------------------------
-// export const VENTURE_CHANGE = 'VENTURE_CHANGE'
+//SHAPE 
+const INITIAL_STATE = {
+  _id: "", 
+  name: "",
+  social: SOCIAL_SHAPE,
+  campaigns: [],
+  mentees: [],
+  followers: []
+}
 
-// ------------------------------------
-// Actions
-// ------------------------------------
-export function ventureChange(venture = '/') {
-  return {
-    type: UPDATE_VENTURE,
-    payload: venture
+
+function VentureReducer(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    //Generic Updates
+    
+    default:
+      return state;
   }
 }
 
-// ------------------------------------
-// Specialized Action Creator
-// ------------------------------------
-// export const updateLocation = ({ dispatch }) => {
-//   return nextLocation => dispatch(ventureChange(nextLocation))
-// }
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = null
-export default function VentureReducer(state = initialState, action) {
-  return action.type === UPDATE_VENTURE ? action.payload : state
-}
+export default VentureReducer;

@@ -4,7 +4,7 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import {AUTH_SAGA} from "./../actions";
 //Route
 // import * as ROUTE from "./../Routes";
-import { push } from "react-router-redux";
+// import { push } from "react-router-redux";
 
 //Firebase Auth
 // import firebase from "firebase/app";
@@ -180,7 +180,8 @@ function* handleAuth(action) {
 }
 
 export default function* authSaga() {
-  yield takeEvery(AUTH_SAGA, null);
+  
+  // yield takeEvery(AUTH_SAGA, handleAuth);
 }
 
 

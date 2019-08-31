@@ -19,6 +19,7 @@ export const rrfConfig = {
   updateProfileOnLogin: false, // enable/disable updating of profile on login
   presence: 'presence', // list currently online users under "presence" path in RTDB
   sessions: null, // Skip storing of sessions
+  enableRedirectHandling: false, //prevent next is undefined error
   enableLogging: false, // enable/disable Firebase Database Logging
   profileDecorator: (userData) => ({ email: userData.email }) 
 }

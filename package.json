@@ -53,11 +53,14 @@
 				"next-redux-wrapper": "^3.0.0",
 				"react": "16.9.0",
 				"react-axe": "^3.2.0",
+				"react-devtools": "^3.6.3",
 				"react-dom": "16.9.0",
 				"react-final-form": "^6.3.0",
 				"react-redux": "^7.1.1",
 				"react-redux-firebase": "^2.4.0",
 				"redux": "^4.0.4",
+				"redux-devtools": "^3.5.0",
+				"redux-logger": "^3.0.6",
 				"redux-saga": "^1.0.5"
 		},
 		"scripts": {

@@ -1,4 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux'
+import logger from "redux-logger";
+
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import firebase from 'firebase/app'
 import 'firebase/database'
@@ -9,28 +11,21 @@ import createSagaMiddleware from "redux-saga";
 import makeRootReducer from './reducers'
 import {fbConfig, rrfConfig } from './../config'
 import rootSaga from './../sagas'
-
+import withRedux from 'next-redux-wrapper'
 export default (initialState = {}) => {
 
-  // ======================================================
-  // Store Enhancers
-  // ======================================================
-  const enhancers = []
-
-  if (process.env.NODE_ENV === 'local') {
-    const devToolsExtension = window.devToolsExtension
-    if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension())
-    }
-  }
-
+  
   // ======================================================
   // Middleware Configuration
   // ======================================================
   const sagaMiddleware = createSagaMiddleware()
   const middleware = [
-    sagaMiddleware
-    // This is where you add other middleware like redux-observable
+    sagaMiddleware,
+    // reactReduxFirebase(firebase, rrfConfig),
+  ]
+  const devMiddleware = [
+    ...middleware,
+    logger
   ]
 
   // ======================================================
@@ -42,26 +37,32 @@ export default (initialState = {}) => {
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-  const store = createStore(
-    makeRootReducer(),
-    initialState,
-    compose(
-      applyMiddleware(...middleware),
-      reactReduxFirebase(firebase, rrfConfig),
-      ...enhancers
-    )
-  )
+
+  const store = 
+    process.env.NODE_ENV === "production"
+    ? createStore(
+      makeRootReducer(),
+      compose(applyMiddleware(...middleware))
+      )
+    : createStore(
+      makeRootReducer(),
+      // INJECTED_APP_STATE,
+      compose(
+        applyMiddleware(...devMiddleware)
+      )
+    );
+  
   sagaMiddleware.run(rootSaga)
 
-  store.asyncReducers = {}
+  // store.asyncReducers = {}
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
-      store.replaceReducer(reducers(store.asyncReducers))
-    })
-  }
+  // if (module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     const reducers = require('./reducers').default
+  //     store.replaceReducer(reducers(store.asyncReducers))
+  //   })
+  // }
 
-  return store
+  return withRedux(store)
 }
 
