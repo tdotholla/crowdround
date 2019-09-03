@@ -26,162 +26,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const WhoStep = ({dispatch}) => {
-  const [values, setValues] = useState({
-    type: '',
-    name: '',
-  });
-  
-  function handleChange(event) {
-    updateForms((dispatch, oldValues) => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }))
-
-    // setValues(oldValues => ({
-    //   ...oldValues,
-    //   [event.target.name]: event.target.value,
-    // }));
-  }
-
-  const classes = useStyles();
-  return (
-    <Grid item>
-      <Typography variant="h5" align="center">Which category would you fit into?</Typography>
-      <FormControl className={classes.formControl} fullWidth>
-        <InputLabel>Select a type:</InputLabel>
-        <Select
-          value={values.type}
-          onChange={handleChange}
-          input={<Input name="type" id="type-helper" />}
-          displayEmpty
-          name="type"
-        >
-          <MenuItem value={'Business Owner'}>Business Owner</MenuItem>
-          <MenuItem value={'Investor'}>Investor</MenuItem>
-          <MenuItem value={'Business Mentor / Coach'}>Business Mentor</MenuItem>
-        </Select>  
-      </FormControl>
-    </Grid>
-  )
-}
-const InfoStep = ({type}) => {
-  const [values, setValues] = useState({
-    name: "",
-    sales: 0,
-
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-  //name of business, purpose of investment, how much needed, what can you offer in return (select), Annual sales (or last 3 months), Value added (direct impact)
-  //formulas: free cash flow (net income + non-cash expenses - capital expenditures - working capital)
-  return (
-    <>
-      <Typography variant="h5">Business Information:</Typography>
-      <FormControl fullWidth>
-        <TextField
-        id="name-helper"
-        label='Name of your Business.'
-        value={values.name}
-        onChange={handleChange('name')}
-        margin='normal'
-        /> 
-      </FormControl>
-
-<FormControl fullWidth>
-        <TextField
-        label='What were your sales in the last 3 months?'
-        value={values.sales}
-        onChange={handleChange('sales')}
-        margin='normal'
-        /> 
-        </FormControl>
-        
-    </>
-  )
-}
-const HowStep = (params) => {
-  const [values, setValues] = useState({
-    amount: 0,
-    purpose: '',
-    return: '',
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-  return (
-    <>
-    <Typography variant="h5">Investment Information:</Typography>
-      
-        
-<FormControl>
-        <TextField
-        label='How much would you need?'
-        value={values.amount}
-        onChange={handleChange('amount')}
-        margin='normal'
-        /> 
-
-        </FormControl>
-        
-<FormControl fullWidth>
-        <TextField
-        id="purpose-helper"
-        label='What will you use the investment for?'
-        value={values.purpose}
-        onChange={handleChange('purpose')}
-        margin='normal'
-        multiline
-        
-        /> 
-        </FormControl>
-        <Typography variant="h5">What can you offer in return for investment?</Typography>
-        <FormControl fullWidth>
-          <InputLabel>Select an Incentive:</InputLabel>
-        <Select
-          value={values.return}
-          onChange={handleChange}
-          input={<Input name="type" id="return-helper" />}
-        >
-          <MenuItem value={'Money'}>Money</MenuItem>
-          <MenuItem value={'Equity'}>Equity</MenuItem>
-          <MenuItem value={'Gift'}>Gifts</MenuItem>
-          <MenuItem value={'Perks'}>Perks</MenuItem>
-        </Select>
-        </FormControl>
-
-    </>
-  )
-}
-const ConfirmStep = (params) => {
-  return (
-    <>
-    <Typography variant="h5">Please Confirm:</Typography>
-    </>
-  )
-}
-
-
 function getSteps() {
   return ['Category', 'Information', 'Quantify', 'Confirm'];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <WhoStep />;
-    case 1:
-      return <InfoStep />;
-    case 2:
-      return <HowStep />;
-    case 3:
-      return <ConfirmStep />;
-    default:
-      return 'Unknown step';
-  }
 }
 
 const CrowdStepper = () => {
@@ -191,27 +37,20 @@ const CrowdStepper = () => {
   const formValues = useSelector(state => state.forms.values)
   const [activeStep, setActiveStep] = useState(0);
 
-
-
-  function handleNext(values) {
-    dispatch(event => ({
+  function handleNext(event) {
+    dispatch({
       type: UPDATE_FORMS_ASPECT,
       aspect: "values",
       payload: {
         ...formValues,
         [event.target.name]: event.target.value
       }
-    }))
+    })
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   }
-  function handleSubmit(values) {
-    dispatch({
-      type: "SUBMIT FORMDATA TO DB"
-    })
-  }
-  function handleBack(values) {
+  function handleBack(event) {
     // dispatch(event => ({
-    //   type: UPDATE_FORMS_ASPECT,
+   //   type: UPDATE_FORMS_ASPECT,
     //   aspect: "values",
     //   payload: {
     //     ...formValues,
@@ -220,12 +59,15 @@ const CrowdStepper = () => {
     // }))
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
-
+  function handleSubmit(event) {
+    dispatch({
+      type: "SUBMIT FORMDATA TO DB"
+    })
+  }
   function handleReset() {
     setActiveStep(0);
   }
-
-  function validate(values) {
+  const validate = (values) => {
     console.log(values)
     let error = {};
     // if (Object.error.keys.length ){
@@ -239,15 +81,123 @@ const CrowdStepper = () => {
         initialValues={formValues}
         validate={validate}
         onSubmit={handleSubmit}
-      >
-        {({ handleSubmit, submitting, values }) => (
+        render={({ handleSubmit, submitting, values }) => (
           <form onSubmit={handleSubmit}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              {getStepContent(index)}
+              {
+                (() => {
+                  switch (index) {
+                  case 0:
+                    return (
+                    <Grid item>
+                      {/* <Typography variant="h5" align="center">Which category would you fit into?</Typography> */}
+                      <Field 
+                      name="type"
+                      label="Select a Type:"
+                      render={
+                        ({input: {name,value, onChange, ...restInput},
+                          meta, label, ...rest
+                        }) => {
+                          const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
+                          return (
+                          <FormControl fullWidth error={showError}>
+                            <InputLabel htmlFor={name}>{label}</InputLabel>
+                            <Select
+                            {...rest}
+                             name={name}
+                             onChange={onChange}
+                             value={value}
+                             inputProps={restInput}
+                             />
+                             {showError && 
+                            <FormHelperText>{meta.error || meta.submitError}</FormHelperText>
+                            }
+                          </FormControl>
+                        )}
+                      }
+                      >
+                        <MenuItem value={'Business Owner'}>Business Owner</MenuItem>
+                        <MenuItem value={'Investor'}>Investor</MenuItem>
+                        <MenuItem value={'Business Mentor / Coach'}>Business Mentor</MenuItem>
+                        </Field>
+                    </Grid>
+                    );
+                  case 1:
+                    return (
+                      <div>
+                      <Typography variant="h5">Business Information:</Typography>
+      <FormControl fullWidth>
+        <TextField
+        id="name-helper"
+        label='Name of your Business.'
+        value={values.name}
+        margin='normal'
+        /> 
+      </FormControl>
+
+      <FormControl fullWidth>
+        <TextField
+        label='What were your sales in the last 3 months?'
+        value={values.sales}
+        margin='normal'
+        /> 
+        </FormControl>
+        </div>
+                    );
+                  case 2: 
+                    return (
+<div>
+                      <Typography variant="h5">Investment Information:</Typography>
+      
+        
+                      <FormControl>
+                              <TextField
+                              label='How much would you need?'
+                              value={values.amount}
+                              margin='normal'
+                              /> 
+                      
+                              </FormControl>
+                              
+                      <FormControl fullWidth>
+                              <TextField
+                              id="purpose-helper"
+                              label='What will you use the investment for?'
+                              value={values.purpose}
+                              margin='normal'
+                              multiline
+                              
+                              /> 
+                              </FormControl>
+                              <Typography variant="h5">What can you offer in return for investment?</Typography>
+                              <FormControl fullWidth>
+                                <InputLabel>Select an Incentive:</InputLabel>
+                              <Select
+                                value={values.return}
+                                input={<Input name="type" id="return-helper" />}
+                              >
+                                <MenuItem value={'Money'}>Money</MenuItem>
+                                <MenuItem value={'Equity'}>Equity</MenuItem>
+                                <MenuItem value={'Gift'}>Gifts</MenuItem>
+                                <MenuItem value={'Perks'}>Perks</MenuItem>
+                              </Select>
+                              </FormControl>
+                              </div>
+                    );
+                  case 3: 
+                    return (
+                      <Typography variant="h5">Please Confirm:</Typography>
+
+                    );
+                  default:
+                    return 'Unknown Step';
+                }
+              })()
+              }
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
@@ -272,8 +222,7 @@ const CrowdStepper = () => {
         ))}
       </Stepper>
 </form>
-)}
-      </Form>
+)} />
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography variant="h3">All steps completed!</Typography>
