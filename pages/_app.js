@@ -30,8 +30,8 @@ class MyApp extends App {
     const jssStyles = document.querySelector('#jss-server-side');
 
 		if (process.env.NODE_ENV !== 'production') {
-			const axe = require('react-axe')
-			axe(React, ReactDom, 1000)
+			// const axe = require('react-axe')
+			// axe(React, ReactDom, 1000)
 		}
 	}
 

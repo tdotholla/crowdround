@@ -21,12 +21,15 @@ const Index = () => {
   return (
 	<Container>
     <Typography variant="h1" align="center">Welcome to the Crowd Round!</Typography>
-    <Typography variant="subtitle1" align="center">Raise funds to achieve the next milestone in your business.</Typography>
+    <Typography variant="subtitle1" align="center" paragraph>Share your story and raise funds to achieve the next milestone in <i>your</i> business.</Typography>
     <Divider variant="middle"/>
 		
     <CrowdStepper />
+    <Divider variant="middle" />
     <VentureList />
+    <Divider variant="middle"/>
     <InvestorList />
+    <Divider variant="middle"/>
     <MentorList />
 	</Container>
 )

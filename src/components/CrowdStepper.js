@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Stepper, Step, StepLabel, StepContent, Button, Paper, Typography, FormControl, InputLabel, MenuItem, Select, Input, TextField, FormControlLabel, FormHelperText } from '@material-ui/core'
-import { updateForms } from './../../src/store/forms'
-import {INIT_APP} from './../actions'
+// import { updateForms } from './../../src/store/forms'
+import {Form, Field} from 'react-final-form'
+import {INIT_APP, UPDATE_FORMS_ASPECT} from './../actions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 const WhoStep = ({dispatch}) => {
   const [values, setValues] = useState({
     type: '',
-    name: 'Business Owner',
+    name: '',
   });
   
   function handleChange(event) {
@@ -66,8 +67,8 @@ const WhoStep = ({dispatch}) => {
 }
 const InfoStep = ({type}) => {
   const [values, setValues] = useState({
-    name: "LemonTopia",
-    sales: 6000,
+    name: "",
+    sales: 0,
 
   });
 
@@ -103,9 +104,9 @@ const InfoStep = ({type}) => {
 }
 const HowStep = (params) => {
   const [values, setValues] = useState({
-    amount: 500,
-    purpose: 'Buy Foodtruck',
-    return: 'Money, Equity, Gift',
+    amount: 0,
+    purpose: '',
+    return: '',
   });
 
   const handleChange = name => event => {
@@ -173,7 +174,7 @@ function getStepContent(step) {
     case 0:
       return <WhoStep />;
     case 1:
-      return <InfoStep type="Business Owner"/>;
+      return <InfoStep />;
     case 2:
       return <HowStep />;
     case 3:
@@ -190,27 +191,57 @@ const CrowdStepper = () => {
   const formValues = useSelector(state => state.forms.values)
   const [activeStep, setActiveStep] = useState(0);
 
+
+
   function handleNext(values) {
-    updateForms((dispatch, formValues) => ({
-      ...formValues,
-      [event.target.name]: event.target.value,
+    dispatch(event => ({
+      type: UPDATE_FORMS_ASPECT,
+      aspect: "values",
+      payload: {
+        ...formValues,
+        [event.target.name]: event.target.value
+      }
     }))
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   }
-
+  function handleSubmit(values) {
+    dispatch({
+      type: "SUBMIT FORMDATA TO DB"
+    })
+  }
   function handleBack(values) {
-    updateForms((dispatch, formValues) => ({
-      ...formValues,
-      [event.target.name]: event.target.value,
-    }))
+    // dispatch(event => ({
+    //   type: UPDATE_FORMS_ASPECT,
+    //   aspect: "values",
+    //   payload: {
+    //     ...formValues,
+    //     [event.target.name]: event.target.value
+    //   }
+    // }))
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
 
   function handleReset() {
     setActiveStep(0);
   }
+
+  function validate(values) {
+    console.log(values)
+    let error = {};
+    // if (Object.error.keys.length ){
+    //   return error
+    // }
+    return values 
+  }
   return (
     <div className={classes.root}>
+      <Form
+        initialValues={formValues}
+        validate={validate}
+        onSubmit={handleSubmit}
+      >
+        {({ handleSubmit, submitting, values }) => (
+          <form onSubmit={handleSubmit}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
@@ -240,11 +271,14 @@ const CrowdStepper = () => {
           </Step>
         ))}
       </Stepper>
+</form>
+)}
+      </Form>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography variant="h3">All steps completed!</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Close
+            Go to the Marketplace
           </Button>
         </Paper>
       )}
