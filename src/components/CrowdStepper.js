@@ -59,6 +59,17 @@ const CrowdStepper = () => {
     // }))
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
+  const handleChange = event => {
+    event.preventDefault();
+    dispatch({
+      type: UPDATE_FORMS_ASPECT,
+        aspect: "values",
+        payload: {
+          ...formValues,
+          [event.target.name]: event.target.value
+        }
+      })
+  }
   function handleSubmit(event) {
     dispatch({
       type: "SUBMIT FORMDATA TO DB"
@@ -67,19 +78,22 @@ const CrowdStepper = () => {
   function handleReset() {
     setActiveStep(0);
   }
-  const validate = (values) => {
-    console.log(values)
-    let error = {};
-    // if (Object.error.keys.length ){
-    //   return error
-    // }
-    return values 
-  }
+  // const validate = (values) => {
+  //   // console.log(values)
+  //   // let errors = {};
+  //   // if (!values.category || !values.name) {
+  //   //   errors.category = "REQUIRED!"
+  //   // } 
+  //   // if (Object.error.keys.length ){
+  //   //   return error
+  //   // }
+  //   return errors 
+  // }
   return (
     <div className={classes.root}>
       <Form
         initialValues={formValues}
-        validate={validate}
+        // validate={validate}
         onSubmit={handleSubmit}
         render={({ handleSubmit, submitting, values }) => (
           <form onSubmit={handleSubmit}>
@@ -96,8 +110,9 @@ const CrowdStepper = () => {
                     <Grid item>
                       {/* <Typography variant="h5" align="center">Which category would you fit into?</Typography> */}
                       <Field 
-                      name="type"
-                      label="Select a Type:"
+                      name="category"
+                      label="Select a Category:"
+                      required
                       render={
                         ({input: {name,value, onChange, ...restInput},
                           meta, label, ...rest
@@ -109,7 +124,7 @@ const CrowdStepper = () => {
                             <Select
                             {...rest}
                              name={name}
-                             onChange={onChange}
+                             onChange={handleChange}
                              value={value}
                              inputProps={restInput}
                              />
@@ -122,46 +137,58 @@ const CrowdStepper = () => {
                       >
                         <MenuItem value={'Business Owner'}>Business Owner</MenuItem>
                         <MenuItem value={'Investor'}>Investor</MenuItem>
-                        <MenuItem value={'Business Mentor / Coach'}>Business Mentor</MenuItem>
+                        <MenuItem value={'Business Mentor'}>Business Mentor</MenuItem>
                         </Field>
                     </Grid>
                     );
                   case 1:
                     return (
                       <div>
-                      <Typography variant="h5">Business Information:</Typography>
-      <FormControl fullWidth>
-        <TextField
-        id="name-helper"
-        label='Name of your Business.'
-        value={values.name}
-        margin='normal'
-        /> 
-      </FormControl>
 
-      <FormControl fullWidth>
-        <TextField
-        label='What were your sales in the last 3 months?'
-        value={values.sales}
-        margin='normal'
-        /> 
-        </FormControl>
+                      <Field 
+                      name="businessName"
+                      required
+                      type="text"
+                      label='Name of your Business'
+                      fullWidth
+                      render={({input: {name,value, onChange, ...restInput},
+                        meta, label, ...rest
+                      }) => 
+
+                      <FormControl fullWidth >
+                      <InputLabel htmlFor={name}>{label}</InputLabel>
+                        <TextField 
+                        {...rest}
+                        name={name}
+                        helperText={meta.error || meta.submitError }
+                        inputProps={restInput}
+                        onChange={handleChange}
+                        value={value}/>
+
+                      </FormControl>
+                      }
+                      />
+      
+                      <Field
+                      label='Sales in Last 3 Months?'
+                      name="sales"
+                      required
+                      fullWidth
+                      onChange={handleChange}
+                      component={TextField}
+                      /> 
         </div>
                     );
                   case 2: 
                     return (
 <div>
                       <Typography variant="h5">Investment Information:</Typography>
-      
-        
-                      <FormControl>
+
                               <TextField
                               label='How much would you need?'
                               value={values.amount}
                               margin='normal'
                               /> 
-                      
-                              </FormControl>
                               
                       <FormControl fullWidth>
                               <TextField
@@ -178,7 +205,7 @@ const CrowdStepper = () => {
                                 <InputLabel>Select an Incentive:</InputLabel>
                               <Select
                                 value={values.return}
-                                input={<Input name="type" id="return-helper" />}
+                                input={<Input name="return" id="return-helper" />}
                               >
                                 <MenuItem value={'Money'}>Money</MenuItem>
                                 <MenuItem value={'Equity'}>Equity</MenuItem>
